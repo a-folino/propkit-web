@@ -3,194 +3,329 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>PropKit</title>
+  <title>PropKit – Australian property calculators</title>
+  <meta name="description" content="PropKit: stamp duty, mortgage, land tax, CGT, rental yield and equity calculators for Australian property. Support, privacy policy and subscription terms." />
   <style>
-    body {
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Inter, sans-serif;
-      max-width: 760px;
-      margin: 40px auto;
-      padding: 0 16px;
-      line-height: 1.6;
-      color: #111;
+    :root {
+      --brand: #0093FF;
+      --brand-ink: #0067B8;
+      --tint: #E6F4FF;
+      --ink: #0B1F33;
+      --ink2: #475467;
+      --page: #F5F7FA;
+      --card: #FFFFFF;
+      --border: #E4E7EC;
     }
-    h1 { font-size: 1.8rem; margin-bottom: .25rem; }
-    h2 { margin-top: 2rem; }
-    .muted { color:#555 }
-    a { color:#0067B8; text-decoration: none }
-    a:hover { text-decoration: underline }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --brand-ink: #5CB8FF;
+        --tint: #0F2A44;
+        --ink: #EEF2F6;
+        --ink2: #A8B3C2;
+        --page: #0B1520;
+        --card: #121E2B;
+        --border: #233142;
+      }
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 72px; }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, Inter, sans-serif;
+      background: var(--page);
+      color: var(--ink);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: var(--brand-ink); text-decoration: none; font-weight: 600; }
+    a:hover { text-decoration: underline; }
+
+    /* Header */
+    .hero {
+      background: radial-gradient(900px 500px at 90% -20%, #3DB0FF 0%, rgba(61,176,255,0) 60%), var(--brand);
+      color: #fff;
+      padding: 56px 20px 88px;
+      text-align: center;
+      border-radius: 0 0 32px 32px;
+    }
+    .logo {
+      width: 72px; height: 72px; margin: 0 auto 16px;
+      border-radius: 18px; background: #fff; color: var(--brand);
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 800; font-size: 26px; letter-spacing: -0.5px;
+      box-shadow: 0 10px 30px rgba(0,40,90,.25);
+    }
+    .hero h1 { margin: 0; font-size: 40px; letter-spacing: -0.5px; line-height: 1.15; }
+    .hero p { margin: 10px auto 0; max-width: 520px; font-size: 19px; font-weight: 500; opacity: .95; }
+
+    /* Section tabs */
+    nav {
+      position: sticky; top: 0; z-index: 10;
+      display: flex; justify-content: center; gap: 8px; flex-wrap: wrap;
+      padding: 12px 16px;
+      background: color-mix(in srgb, var(--page) 88%, transparent);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    nav a {
+      padding: 8px 16px; border-radius: 999px;
+      background: var(--card); border: 1px solid var(--border);
+      color: var(--ink); font-size: 15px;
+    }
+    nav a:hover { text-decoration: none; border-color: var(--brand); color: var(--brand-ink); }
+
+    main { max-width: 820px; margin: -56px auto 0; padding: 0 16px 64px; position: relative; }
+    section { margin-top: 48px; }
+    section:first-child { margin-top: 0; }
+    h2 { font-size: 30px; letter-spacing: -0.4px; margin: 0 0 6px; line-height: 1.2; }
+    h3 { font-size: 18px; margin: 28px 0 8px; }
+    .muted { color: var(--ink2); }
     .card {
-      background:#fafafa;
-      border:1px solid #e5e7eb;
-      border-radius:12px;
-      padding:16px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 24px;
       margin-top: 16px;
     }
-    .space { height: 24px; }
-    ul { padding-left: 18px; }
-    table { border-collapse: collapse; width: 100%; margin-top: 8px; }
-    th, td { text-align: left; padding: 8px; border-bottom: 1px solid #e5e7eb; vertical-align: top; }
-    th { font-weight: 600; }
-    nav a { margin-right: 16px; }
+    .card > :first-child { margin-top: 0; }
+    .card > :last-child { margin-bottom: 0; }
+
+    /* Contact */
+    .contact { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+    .contact h2 { font-size: 24px; }
+    .button {
+      display: inline-block; padding: 14px 22px; border-radius: 14px;
+      background: var(--brand); color: #fff; font-size: 17px; font-weight: 700;
+    }
+    .button:hover { text-decoration: none; filter: brightness(1.05); }
+
+    /* Features */
+    .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; margin-top: 16px; }
+    .feature { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 16px 18px; }
+    .feature strong { display: block; font-size: 16px; }
+    .feature span { color: var(--ink2); font-size: 14px; }
+    .pro { display: inline-block; margin-left: 6px; padding: 1px 8px; border-radius: 999px; background: var(--tint); color: var(--brand-ink); font-size: 12px; font-weight: 700; vertical-align: 2px; }
+
+    /* FAQ */
+    details { border-top: 1px solid var(--border); padding: 14px 0; }
+    details:first-of-type { border-top: 0; padding-top: 0; }
+    summary { cursor: pointer; font-weight: 650; font-size: 17px; list-style: none; display: flex; justify-content: space-between; gap: 12px; }
+    summary::-webkit-details-marker { display: none; }
+    summary::after { content: "+"; color: var(--brand-ink); font-size: 22px; line-height: 1; }
+    details[open] summary::after { content: "–"; }
+    details p { margin: 10px 0 0; color: var(--ink2); }
+
+    ul { padding-left: 20px; margin: 8px 0; }
+    li { margin: 6px 0; }
+    li::marker { color: var(--brand); }
+    table { width: 100%; border-collapse: collapse; font-size: 15px; }
+    th, td { text-align: left; padding: 12px 10px; border-bottom: 1px solid var(--border); vertical-align: top; }
+    th { color: var(--ink2); font-weight: 600; font-size: 13px; text-transform: uppercase; letter-spacing: .4px; }
+    tr:last-child td { border-bottom: 0; }
+    .table-wrap { overflow-x: auto; }
+
+    footer { text-align: center; color: var(--ink2); font-size: 14px; padding: 32px 16px 48px; border-top: 1px solid var(--border); }
+    @media (max-width: 560px) {
+      .hero h1 { font-size: 32px; }
+      .hero p { font-size: 17px; }
+      h2 { font-size: 26px; }
+      .card { padding: 20px; }
+    }
   </style>
 </head>
 <body>
 
-  <!-- SUPPORT -->
-  <h1>PropKit</h1>
-  <p class="muted">Australian property calculators. Get help, report an issue or request a feature.</p>
-  <nav>
+  <header class="hero">
+    <img src="propkit-icon.png" alt="PropKit" width="72" height="72" style="border-radius:18px;display:block;margin:0 auto 16px;box-shadow:0 10px 30px rgba(0,40,90,.25)">
+    <h1>PropKit</h1>
+    <p>Know the numbers before you buy, sell or invest in Australian property.</p>
+  </header>
+
+  <nav aria-label="Sections">
     <a href="#support">Support</a>
-    <a href="#privacy">Privacy Policy</a>
+    <a href="#features">Features</a>
+    <a href="#privacy">Privacy</a>
     <a href="#terms">Subscriptions &amp; Terms</a>
   </nav>
 
-  <div class="card" id="support">
-    <h2 style="margin-top:0">Contact</h2>
-    <p>Email: <a href="mailto:folyapps@gmail.com">folyapps@gmail.com</a></p>
-    <p>We aim to reply within 2 business days.</p>
-  </div>
+  <main>
 
-  <div class="card">
-    <h2 style="margin-top:0">Quick FAQ</h2>
+    <!-- SUPPORT -->
+    <section id="support">
+      <div class="card contact">
+        <div>
+          <h2>Need help?</h2>
+          <p class="muted" style="margin:0">Report an issue or request a feature. We aim to reply within 2 business days.</p>
+        </div>
+        <a class="button" href="mailto:folyapps@gmail.com">Email folyapps@gmail.com</a>
+      </div>
 
-    <p><strong>Is this financial, legal or tax advice?</strong><br />
-      No. PropKit provides estimates only and is not financial, legal or tax advice. Always confirm figures with official state revenue offices and licensed professionals.</p>
+      <div class="card">
+        <h2 style="font-size:24px">Frequently asked questions</h2>
 
-    <p><strong>Why might calculations differ from official government tools?</strong><br />
-      Thresholds, concessions and rates change over time. Make sure contract dates, buyer type, property type and values match official inputs.</p>
+        <details>
+          <summary>Is this financial, legal or tax advice?</summary>
+          <p>No. PropKit provides estimates only and is not financial, legal or tax advice. Always confirm figures with your state revenue office and licensed professionals.</p>
+        </details>
 
-    <p><strong>Do I need an account?</strong><br />
-      No. The calculators work without an account. You only need a free account to save properties to <em>My properties</em>, so they're backed up and available on your other devices. Free accounts can save one property. PropKit Pro saves unlimited properties.</p>
+        <details>
+          <summary>Why might results differ from official government tools?</summary>
+          <p>Thresholds, concessions and rates change over time. Make sure contract dates, buyer type, property type and values match the official inputs.</p>
+        </details>
 
-    <p><strong>What does PropKit Pro include?</strong><br />
-      Equity projections for any property, unlimited saved properties, comparing properties side by side, portfolio projection and no ads. In Australia it's A$2.99 a month or A$19.99 a year. Prices in other countries are set by the App Store.</p>
+        <details>
+          <summary>Do I need an account?</summary>
+          <p>No. The calculators work without an account. You only need a free account to save properties to <em>My properties</em>, so they're backed up and available on your other devices. Free accounts can save one property. PropKit Pro saves unlimited properties.</p>
+        </details>
 
-    <p><strong>How do I delete my account?</strong><br />
-      In the app, go to <em>Account</em> and tap <em>Delete account</em>, then confirm twice. This permanently deletes your account and the properties you've saved. Deleting your account doesn't cancel a PropKit Pro subscription, so cancel that separately (see below). You can also email us and we'll delete your account for you.</p>
+        <details>
+          <summary>What does PropKit Pro include?</summary>
+          <p>Equity projections for any property, unlimited saved properties with combined land tax, comparing properties side by side, portfolio projection and no ads. In Australia it's A$2.99 a month or A$19.99 a year. Prices in other countries are set by the App Store.</p>
+        </details>
 
-    <p><strong>How do I cancel PropKit Pro?</strong><br />
-      Subscriptions are managed by Apple. In the app, open <em>PropKit Pro</em> and tap <em>Manage subscription</em> or go to <em>Settings → your name → Subscriptions</em> on your iPhone. Cancel at least 24 hours before the renewal date to avoid being charged for the next period.</p>
+        <details>
+          <summary>How do I cancel PropKit Pro?</summary>
+          <p>Subscriptions are managed by Apple. In the app, open <em>PropKit Pro</em> and tap <em>Manage subscription</em> or go to <em>Settings → your name → Subscriptions</em> on your iPhone. Cancel at least 24 hours before the renewal date to avoid being charged for the next period.</p>
+        </details>
 
-    <p><strong>I bought Ad-Free or Pro but it isn't showing.</strong><br />
-      Open <em>Account</em> in the app and tap <em>Restore purchases</em>, making sure you're signed in to the same Apple ID you used to buy.</p>
-  </div>
+        <details>
+          <summary>I bought PropKit Pro but it isn't showing.</summary>
+          <p>Open <em>Account</em> in the app and tap <em>Restore purchases</em>. Make sure you're signed in to the same Apple ID you used to buy.</p>
+        </details>
 
-  <div class="space" id="privacy"></div>
+        <details>
+          <summary>How do I delete my account?</summary>
+          <p>In the app, go to <em>Account</em> and tap <em>Delete account</em>, then confirm twice. This permanently deletes your account and the properties you've saved. Deleting your account doesn't cancel a PropKit Pro subscription, so cancel that separately. You can also email us and we'll delete your account for you.</p>
+        </details>
+      </div>
+    </section>
 
-  <!-- PRIVACY -->
-  <h1>PropKit – Privacy Policy</h1>
-  <p class="muted">Last updated: <strong>October 2026</strong></p>
+    <!-- FEATURES -->
+    <section id="features">
+      <h2>What's in PropKit</h2>
+      <p class="muted">Built for first home buyers, investors and everyone in between, with rates updated for 2026–27.</p>
+      <div class="features">
+        <div class="feature"><strong>What can I afford?</strong><span>Your maximum price with stamp duty and costs included</span></div>
+        <div class="feature"><strong>First home hub</strong><span>Grants, concessions and the 5% Deposit Scheme</span></div>
+        <div class="feature"><strong>Stamp duty</strong><span>Every state and territory, with concessions</span></div>
+        <div class="feature"><strong>Mortgage repayments</strong><span>Weekly, fortnightly or monthly, with fees</span></div>
+        <div class="feature"><strong>LVR and LMI</strong><span>Loan-to-value ratio and whether LMI is likely</span></div>
+        <div class="feature"><strong>Land tax</strong><span>Every state, plus total land tax across your properties</span></div>
+        <div class="feature"><strong>Rental analysis</strong><span>Yield and cashflow after all costs</span></div>
+        <div class="feature"><strong>Capital gains tax</strong><span>Estimate CGT when you sell</span></div>
+        <div class="feature"><strong>Equity projection <span class="pro">PRO</span></strong><span>Value, loan and equity over 5, 10 or 20 years</span></div>
+        <div class="feature"><strong>My properties</strong><span>Equity, LVR, cashflow and land tax in one place</span></div>
+        <div class="feature"><strong>Compare <span class="pro">PRO</span></strong><span>Properties side by side</span></div>
+        <div class="feature"><strong>Portfolio projection <span class="pro">PRO</span></strong><span>Your whole portfolio years ahead</span></div>
+      </div>
+    </section>
 
-  <div class="card">
-    <p>
-      PropKit is a property calculator app for Australia. We respect your privacy and collect as little data as we can. This policy explains what we collect, why, who helps us process it and the choices you have.
-    </p>
-  </div>
+    <!-- PRIVACY -->
+    <section id="privacy">
+      <h2>Privacy Policy</h2>
+      <p class="muted">Last updated: <strong>October 2026</strong></p>
 
-  <h2>Data We Collect</h2>
-  <ul>
-    <li><strong>Calculator inputs</strong> (e.g. prices, income, loan amounts) are processed <strong>on your device</strong>. They are not sent to us unless you choose to save a property.</li>
-    <li><strong>Account details</strong>, if you create an account: your email address (or, with Sign in with Apple, the email Apple provides, which may be a private relay address) and an account ID.</li>
-    <li><strong>Saved properties</strong>, if you save them: the details you enter, such as a property name, state, value, purchase price, land value, loan balance, interest rate, repayment type, rent and costs. These are stored on our servers so you can access them from your devices.</li>
-    <li><strong>Purchase information</strong>: whether you have bought Ad-Free or subscribed to PropKit Pro, used to unlock those features and to support Restore Purchases. We never see your payment card details. Payments are handled by Apple.</li>
-    <li><strong>Advertising data and device identifiers</strong>, which may be collected by our advertising partner when ads are shown.</li>
-    <li><strong>App preferences</strong> stored on your device, such as your chosen state or territory.</li>
-  </ul>
+      <div class="card">
+        <p>PropKit is a property calculator app for Australia. We respect your privacy and collect as little data as we can. This policy explains what we collect, why, who helps us process it and the choices you have.</p>
 
-  <h2>How We Use Data</h2>
-  <ul>
-    <li>Calculator inputs are used only to perform calculations in the app.</li>
-    <li>Account details are used to sign you in and keep your saved properties private to you.</li>
-    <li>Saved properties are used only to show them back to you and calculate your portfolio figures.</li>
-    <li>Purchase data is used only to unlock Ad-Free and Pro features.</li>
-    <li>Advertising data is used solely for displaying and measuring ads.</li>
-  </ul>
+        <h3>Data we collect</h3>
+        <ul>
+          <li><strong>Calculator inputs</strong> (such as prices, income and loan amounts) are processed <strong>on your device</strong>. They are not sent to us unless you choose to save a property.</li>
+          <li><strong>Account details</strong>, if you create an account: your email address (or with Sign in with Apple, the email Apple provides, which may be a private relay address) and an account ID.</li>
+          <li><strong>Saved properties</strong>, if you save them: the details you enter, such as a property name, state, value, purchase price, land value, loan balance, interest rate, repayment type, rent and costs. These are stored on our servers so you can access them from your devices.</li>
+          <li><strong>Purchase information</strong>: whether you have subscribed to PropKit Pro, used to unlock Pro features and support Restore purchases. We never see your payment card details. Payments are handled by Apple.</li>
+          <li><strong>Advertising data and device identifiers</strong>, which may be collected by our advertising partner when ads are shown.</li>
+          <li><strong>App preferences</strong> stored on your device, such as your chosen state or territory.</li>
+        </ul>
 
-  <h2>Advertising &amp; Tracking</h2>
-  <p>
-    PropKit displays third-party advertisements using Google AdMob.
-  </p>
-  <ul>
-    <li>PropKit requests non-personalised ads and we do not track you across other companies' apps or websites.</li>
-    <li>Our advertising partner may still collect device identifiers and advertising data to deliver ads, limit how often you see them and measure them.</li>
-    <li>If you purchase <strong>Ad-Free</strong> or subscribe to <strong>PropKit Pro</strong>, ads are turned off.</li>
-  </ul>
+        <h3>How we use data</h3>
+        <ul>
+          <li>Calculator inputs are used only to perform calculations in the app.</li>
+          <li>Account details are used to sign you in and keep your saved properties private to you.</li>
+          <li>Saved properties are used only to show them back to you and calculate your portfolio figures.</li>
+          <li>Purchase data is used only to unlock Pro features.</li>
+          <li>Advertising data is used only for displaying and measuring ads.</li>
+        </ul>
 
-  <h2>Service Providers</h2>
-  <p>We use trusted providers to run PropKit. They process data only on our behalf, to provide their service:</p>
-  <table>
-    <tr><th>Provider</th><th>What they do</th><th>Location</th></tr>
-    <tr><td>Clerk</td><td>Account sign-in and email verification codes</td><td>United States</td></tr>
-    <tr><td>Render</td><td>Hosts our server and the database that stores saved properties</td><td>Singapore</td></tr>
-    <tr><td>RevenueCat</td><td>Manages Ad-Free and Pro purchases and restores</td><td>United States</td></tr>
-    <tr><td>Google AdMob</td><td>Shows ads</td><td>Global</td></tr>
-    <tr><td>Apple</td><td>Payments, subscriptions and Sign in with Apple</td><td>Global</td></tr>
-  </table>
+        <h3>Advertising and tracking</h3>
+        <ul>
+          <li>PropKit shows ads using Google AdMob and requests non-personalised ads only.</li>
+          <li>We do not track you across other companies' apps or websites.</li>
+          <li>Our advertising partner may still collect device identifiers and advertising data to deliver ads, limit how often you see them and measure them.</li>
+          <li>If you subscribe to <strong>PropKit Pro</strong>, ads are turned off.</li>
+        </ul>
 
-  <h2>Storing Data Overseas</h2>
-  <p>
-    Saved properties and account details are stored and processed outside Australia, in Singapore and the United States, by the providers above. We choose providers that protect personal information to standards comparable to the Australian Privacy Principles.
-  </p>
+        <h3>Service providers</h3>
+        <p class="muted" style="margin-top:0">We use trusted providers to run PropKit. They process data only on our behalf, to provide their service.</p>
+        <div class="table-wrap">
+          <table>
+            <tr><th>Provider</th><th>What they do</th><th>Location</th></tr>
+            <tr><td>Clerk</td><td>Account sign-in and email verification codes</td><td>United States</td></tr>
+            <tr><td>Render</td><td>Hosts our server and the database that stores saved properties</td><td>Singapore</td></tr>
+            <tr><td>RevenueCat</td><td>Manages PropKit Pro subscriptions and restores</td><td>United States</td></tr>
+            <tr><td>Google AdMob</td><td>Shows ads</td><td>Global</td></tr>
+            <tr><td>Apple</td><td>Payments, subscriptions and Sign in with Apple</td><td>Global</td></tr>
+          </table>
+        </div>
 
-  <h2>Data Sharing</h2>
-  <p>
-    We do not sell your data. We share data only with the service providers above, so they can provide their services to us or where required by law.
-  </p>
+        <h3>Storing data overseas</h3>
+        <p>Saved properties and account details are stored and processed outside Australia, in Singapore and the United States, by the providers above. We choose providers that protect personal information to standards comparable to the Australian Privacy Principles.</p>
 
-  <h2>Security &amp; Retention</h2>
-  <ul>
-    <li>Data sent between the app and our servers is encrypted in transit and each account can only access its own saved properties.</li>
-    <li>We keep your account and saved properties until you delete them. Deleting a property removes it straight away. Deleting your account removes your account and all your saved properties. Copies may remain in routine backups for a short period before they're overwritten.</li>
-  </ul>
+        <h3>Data sharing</h3>
+        <p>We do not sell your data. We share data only with the service providers above so they can provide their services to us or where required by law.</p>
 
-  <h2>Your Choices &amp; Rights</h2>
-  <ul>
-    <li>You can use the calculators without an account.</li>
-    <li>You can view, edit or delete your saved properties in the app at any time.</li>
-    <li>You can delete your account in the app under <em>Account → Delete account</em> or by emailing us.</li>
-    <li>You can ask us for a copy of your data or to correct it by emailing us.</li>
-    <li>If you have a privacy concern, please contact us first. You can also complain to the Office of the Australian Information Commissioner (<a href="https://www.oaic.gov.au">oaic.gov.au</a>).</li>
-  </ul>
+        <h3>Security and retention</h3>
+        <ul>
+          <li>Data sent between the app and our servers is encrypted in transit and each account can only access its own saved properties.</li>
+          <li>We keep your account and saved properties until you delete them. Deleting a property removes it straight away. Deleting your account removes your account and all your saved properties. Copies may remain in routine backups for a short period before they're overwritten.</li>
+        </ul>
 
-  <h2>Children's Privacy</h2>
-  <p>
-    PropKit is not directed to children under 13 and does not knowingly collect personal information from children.
-  </p>
+        <h3>Your choices and rights</h3>
+        <ul>
+          <li>You can use the calculators without an account.</li>
+          <li>You can view, edit or delete your saved properties in the app at any time.</li>
+          <li>You can delete your account in the app under <em>Account → Delete account</em> or by emailing us.</li>
+          <li>You can ask us for a copy of your data or to correct it by emailing us.</li>
+          <li>If you have a privacy concern, please contact us first. You can also complain to the Office of the Australian Information Commissioner (<a href="https://www.oaic.gov.au">oaic.gov.au</a>).</li>
+        </ul>
 
-  <h2>Changes to This Policy</h2>
-  <p>
-    If we update this policy, we will revise the "Last updated" date on this page.
-  </p>
+        <h3>Children's privacy</h3>
+        <p>PropKit is not directed to children under 13 and does not knowingly collect personal information from children.</p>
 
-  <div class="space" id="terms"></div>
+        <h3>Changes to this policy</h3>
+        <p>If we update this policy, we will revise the "Last updated" date on this page.</p>
+      </div>
+    </section>
 
-  <!-- TERMS -->
-  <h1>Subscriptions &amp; Terms</h1>
+    <!-- TERMS -->
+    <section id="terms">
+      <h2>Subscriptions &amp; Terms</h2>
 
-  <h2>PropKit Pro</h2>
-  <ul>
-    <li>PropKit Pro is an auto-renewing subscription, available monthly or yearly. In Australia it's A$2.99 a month or A$19.99 a year. It unlocks equity projections, unlimited saved properties, comparing properties and portfolio projection. It also removes ads.</li>
-    <li>Payment is charged to your Apple ID when you confirm the purchase.</li>
-    <li>Your subscription renews automatically at the same price for the same period unless you cancel at least 24 hours before the end of the current period. Your account is charged for renewal within 24 hours before the period ends.</li>
-    <li>You can manage or cancel your subscription in the app (<em>PropKit Pro → Manage subscription</em>) or in your Apple ID settings. Cancelling stops the next renewal. You keep Pro until the end of the period you've paid for.</li>
-    <li>Deleting your PropKit account doesn't cancel your subscription. Cancel it in your Apple ID settings.</li>
-    <li>Ad-Free is a one-off purchase that removes ads permanently.</li>
-    <li>Refunds are handled by Apple under its refund policies.</li>
-  </ul>
+      <div class="card">
+        <h3>PropKit Pro</h3>
+        <ul>
+          <li>PropKit Pro is an auto-renewing subscription, available monthly or yearly. In Australia it's A$2.99 a month or A$19.99 a year.</li>
+          <li>It unlocks equity projections, unlimited saved properties, comparing properties and portfolio projection. It also removes ads.</li>
+          <li>Payment is charged to your Apple ID when you confirm the purchase.</li>
+          <li>Your subscription renews automatically at the same price for the same period unless you cancel at least 24 hours before the end of the current period. Your account is charged for renewal within 24 hours before the period ends.</li>
+          <li>You can manage or cancel your subscription in the app (<em>PropKit Pro → Manage subscription</em>) or in your Apple ID settings. Cancelling stops the next renewal. You keep Pro until the end of the period you've paid for.</li>
+          <li>Deleting your PropKit account doesn't cancel your subscription. Cancel it in your Apple ID settings.</li>
+          <li>Refunds are handled by Apple under its refund policies.</li>
+        </ul>
 
-  <h2>Terms of Use</h2>
-  <p>
-    Your use of PropKit is governed by Apple's
-    <a href="https://www.apple.com/legal/internet-services/itunes/dev/stdeula/">Standard Licensed Application End User License Agreement</a>.
-    PropKit provides estimates only and is not financial, legal or tax advice.
-  </p>
+        <h3>Terms of Use</h3>
+        <p>Your use of PropKit is governed by Apple's <a href="https://www.apple.com/legal/internet-services/itunes/dev/stdeula/">Standard Licensed Application End User License Agreement</a>. PropKit provides estimates only and is not financial, legal or tax advice.</p>
 
-  <h2>Contact</h2>
-  <p>
-    If you have any questions about privacy, subscriptions or support, contact:
-    <br />
-    <a href="mailto:folyapps@gmail.com">folyapps@gmail.com</a>
-  </p>
+        <h3>Contact</h3>
+        <p>For questions about privacy, subscriptions or support, email <a href="mailto:folyapps@gmail.com">folyapps@gmail.com</a>.</p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    © 2026 PropKit · Made in Australia
+  </footer>
 
 </body>
 </html>
